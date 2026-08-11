@@ -161,7 +161,7 @@ Route::name('v1')->group(function () {
     /*
     # Gemini Image Generation Route
     */
-    Route::middleware(['auth:api'])->post('/gemini/generate-image', [GeminiImageController::class, 'generate']);
+    Route::middleware(['auth:api'])->post('/gemini/generate-image', [GeminiImageController::class, 'generate'])->name('gemini.generate-image');
 
     /*
     # Session Package Route
