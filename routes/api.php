@@ -60,12 +60,12 @@ Route::name('v1')->group(function () {
     Route::get('/social/links', [SocialLinksController::class, 'index'])->name('social.links');
     
     // Legal Documents
-    Route::get('/legal-documents', [App\Http\Controllers\Api\V1\Frontend\LegalDocumentApiController::class, 'index']);
-    Route::get('/settings', [SettingsController::class, 'index']);
-    Route::get('/faq', [FaqController::class, 'index']);
-    Route::get('/top-creators', [CreatorController::class, 'topCreators']);
-    Route::get('/creators', [CreatorController::class, 'index']);
-    Route::get('/creators/{id}', [CreatorController::class, 'show']);
+    Route::get('/legal-documents', [App\Http\Controllers\Api\V1\Frontend\LegalDocumentApiController::class, 'index'])->name('legal-documents');
+    Route::get('/settings', [SettingsController::class, 'index'])->name('settings');
+    Route::get('/faq', [FaqController::class, 'index'])->name('faq');
+    Route::get('/top-creators', [CreatorController::class, 'topCreators'])->name('top.creators');
+    Route::get('/creators', [CreatorController::class, 'index'])->name('creators');
+    Route::get('/creators/{id}', [CreatorController::class, 'show'])->name('creators.show');
 
     Route::post('subscriber/store', [SubscriberController::class, 'store'])->name('api.subscriber.store');
 
