@@ -20,7 +20,9 @@ jobs:
           extensions: mbstring, bcmath, pdo_mysql, curl, zip, gd
 
       - name: Install Composer dependencies
-        run: composer install --optimize-autoloader --no-dev --no-interaction
+        run: |
+          composer install --optimize-autoloader --no-dev --no-interaction
+          
 
       - name: Setup Node (frontend assets thakle)
         uses: actions/setup-node@v4
