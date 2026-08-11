@@ -138,9 +138,9 @@ Route::name('v1')->group(function () {
     */
 
     Route::middleware(['auth:api'])->controller(NotificationController::class)->prefix('notify')->group(function () {
-        Route::get('test', 'test')->name('test');
-        Route::get('/', 'index')->name('index');
-        Route::post('read/{id?}', 'read')->name('read');
+        Route::get('test', 'test')->name('auth.notify.test');
+        Route::get('/', 'index')->name('auth.notify.index');
+        Route::post('read/{id?}', 'read')->name('auth.notify.read');
     });
 
     /*
