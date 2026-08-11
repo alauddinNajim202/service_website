@@ -207,19 +207,7 @@ Route::name('v1')->group(function () {
     */
     Route::get('/users', [UserController::class, 'users'])->name('users');
 
-    Route::get('telegram/messages', function () {
-
-        $token = config('services.telegram.token');
-        $chatId = config('services.telegram.channel');
-
-        $url = "https://api.telegram.org/bot{$token}/sendMessage";
-
-        Http::post($url, [
-            'chat_id' => $chatId,
-            'text' => 'hello from laravel 123',
-            'parse_mode' => 'HTML',
-        ]);
-    });
+   
 
     Route::get('/user-by-name', function (Request $request) {
         $name = $request->input('name');
@@ -229,30 +217,7 @@ Route::name('v1')->group(function () {
             ->get();
     });
 
-    Route::get('/user-email', function (Request $request) {
-
-        $name = $request->input('name');
-
-        $users = User::where('name', 'LIKE', "%$name%")
-            ->select('name', 'email')
-            ->get();
-
-        // Gemini API call
-        $response = Http::post('https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro:generateContent?key=gen-lang-client-0194670477', [
-            'contents' => [
-                [
-                    'parts' => [
-                        [
-                            'text' => 'User data: '.$users->toJson().'.
-                            Give a clean response with name and email.',
-                        ],
-                    ],
-                ],
-            ],
-        ]);
-
-        return $response->json();
-    });
+   
 
 });
 
