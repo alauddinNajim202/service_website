@@ -1,0 +1,92 @@
+@extends('backend.app', ['title' => 'Create Category'])
+
+@section('content')
+
+<!--app-content open-->
+<div class="app-content main-content mt-0">
+    <div class="side-app">
+
+        <div class="main-container container-fluid">
+
+            <div class="page-header">
+                <div>
+                    <h1 class="page-title">{{ $crud ? ucwords(str_replace('_', ' ', $crud)) : 'N/A' }}</h1>
+                </div>
+                <div class="ms-auto pageheader-btn">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url("admin/dashboard") }}"><i class="fe fe-home me-2 fs-14"></i>Home</a></li>
+                        <li class="breadcrumb-item"><a href="javascript:void(0);">Category</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Create</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row" id="user-profile">
+                <div class="col-lg-12">
+
+                    <div class="tab-content">
+                        <div class="tab-pane active show" id="editProfile">
+                            <div class="card">
+                                <div class="card-header border-bottom">
+                                    <h3 class="card-title mb-0">Category</h3>
+                                    <div class="card-options">
+                                        <a href="javascript:window.history.back()" class="btn btn-sm btn-primary">Back</a>
+                                    </div>
+                                </div>
+                                <div class="card-body border-0">
+                                    <form class="form form-horizontal" method="post" action="{{ route('admin.category.store') }}">
+                                        @csrf
+                                        <div class="row mb-4">
+                                          <div class="form-group">
+                                                <label for="name_en" class="form-label">Name (EN):</label>
+                                                <input type="text" class="form-control @error('name_en') is-invalid @enderror" name="name_en" placeholder="Name (EN)" id="name_en" value="{{ old('name_en') }}">
+                                                @error('name_en')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="name_fr" class="form-label">Name (FR):</label>
+                                                <input type="text" class="form-control @error('name_fr') is-invalid @enderror" name="name_fr" placeholder="Name (FR)" id="name_fr" value="{{ old('name_fr') }}">
+                                                @error('name_fr')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="name_sp" class="form-label">Name (SP):</label>
+                                                <input type="text" class="form-control @error('name_sp') is-invalid @enderror" name="name_sp" placeholder="Name (SP)" id="name_sp" value="{{ old('name_sp') }}">
+                                                @error('name_sp')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <button class="submit btn btn-primary" type="submit">Submit</button>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- CONTAINER CLOSED -->
+@endsection
+@push('scripts')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#subcategory_id').select2();
+    });
+</script>  
+@endpush
