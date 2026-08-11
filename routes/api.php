@@ -73,7 +73,7 @@ Route::name('v1')->group(function () {
     # Post
     */
     Route::middleware(['auth:api'])->controller(PostController::class)->prefix('auth/post')->group(function () {
-        Route::get('/', 'index');
+        Route::get('/', 'index')->name('auth.post.index');
         Route::post('/store', 'store')->name('auth.post.store');
         Route::get('/show/{id}', 'show')->name('auth.post.show');
         Route::post('/update/{id}', 'update')->name('auth.post.update');
