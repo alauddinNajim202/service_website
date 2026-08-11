@@ -74,52 +74,52 @@ Route::name('v1')->group(function () {
     */
     Route::middleware(['auth:api'])->controller(PostController::class)->prefix('auth/post')->group(function () {
         Route::get('/', 'index');
-        Route::post('/store', 'store');
-        Route::get('/show/{id}', 'show');
-        Route::post('/update/{id}', 'update');
-        Route::delete('/delete/{id}', 'destroy');
+        Route::post('/store', 'store')->name('post.store');
+        Route::get('/show/{id}', 'show')->name('post.show');
+        Route::post('/update/{id}', 'update')->name('post.update');
+        Route::delete('/delete/{id}', 'destroy')->name('post.delete');
     });
 
-    Route::get('/posts', [PostController::class, 'posts']);
-    Route::get('/post/show/{post_id}', [PostController::class, 'post']);
+    Route::get('/posts', [PostController::class, 'posts'])->name('post.posts');
+    Route::get('/post/show/{post_id}', [PostController::class, 'post'])->name('post.post');
 
     Route::middleware(['auth:api'])->controller(ImageController::class)->prefix('auth/post/image')->group(function () {
-        Route::get('/', 'index');
-        Route::post('/store', 'store');
-        Route::get('/delete/{id}', 'destroy');
+        Route::get('/', 'index')->name('image.index');
+        Route::post('/store', 'store')->name('image.store');
+        Route::get('/delete/{id}', 'destroy')->name('image.delete');
     });
 
-    Route::get('dynamic/page', [PageController::class, 'index']);
-    Route::get('dynamic/page/show/{slug}', [PageController::class, 'show']);
+    Route::get('dynamic/page', [PageController::class, 'index'])->name('page.index');
+    Route::get('dynamic/page/show/{slug}', [PageController::class, 'show'])->name('page.show');
 
     /*
 
     */
 
     Route::group(['middleware' => ['auth:api', 'api-otp']], function ($router) {
-        Route::get('/refresh-token', [LoginController::class, 'refreshToken']);
-        Route::post('/logout', [LogoutController::class, 'logout']);
-        Route::get('/me', [UserController::class, 'me']);
-        Route::get('/account/switch', [UserController::class, 'accountSwitch']);
-        Route::post('/update-profile', [UserController::class, 'updateProfile']);
-        Route::post('/update-creator-profile', [UserController::class, 'updateCreatorProfile']);
-        Route::post('/update-password', [UserController::class, 'updatePassword']);
-        Route::post('/update-avatar', [UserController::class, 'updateAvatar']);
-        Route::delete('/delete-profile', [UserController::class, 'destroy']);
-        Route::post('/favourite/toggle', [FavouriteController::class, 'toggle']);
-        Route::get('/favourites', [FavouriteController::class, 'index']);
-        Route::get('/notification/settings', [UserController::class, 'getNotificationSettings']);
-        Route::post('/notification/settings', [UserController::class, 'updateNotificationSettings']);
+        Route::get('/refresh-token', [LoginController::class, 'refreshToken'])->name('refresh.token');
+        Route::post('/logout', [LogoutController::class, 'logout'])->name('logout');
+        Route::get('/me', [UserController::class, 'me'])->name('me');
+        Route::get('/account/switch', [UserController::class, 'accountSwitch'])->name('account.switch');
+        Route::post('/update-profile', [UserController::class, 'updateProfile'])->name('update.profile');
+        Route::post('/update-creator-profile', [UserController::class, 'updateCreatorProfile'])->name('update.creator.profile');
+        Route::post('/update-password', [UserController::class, 'updatePassword'])->name('update.password');
+        Route::post('/update-avatar', [UserController::class, 'updateAvatar'])->name('update.avatar');
+        Route::delete('/delete-profile', [UserController::class, 'destroy'])->name('delete.profile');
+        Route::post('/favourite/toggle', [FavouriteController::class, 'toggle'])->name('favourite.toggle');
+        Route::get('/favourites', [FavouriteController::class, 'index'])->name('favourites');
+        Route::get('/notification/settings', [UserController::class, 'getNotificationSettings'])->name('notification.settings');
+        Route::post('/notification/settings', [UserController::class, 'updateNotificationSettings'])->name('update.notification.settings');
         
         // Creator Dashboard
-        Route::get('/creator/dashboard', [CreatorDashboardController::class, 'index']);
-        Route::get('/creator/dashboard/recent-earnings', [CreatorDashboardController::class, 'recentEarnings']);
+        Route::get('/creator/dashboard', [CreatorDashboardController::class, 'index'])->name('creator.dashboard');
+        Route::get('/creator/dashboard/recent-earnings', [CreatorDashboardController::class, 'recentEarnings'])->name('creator.dashboard.recent.earnings');
 
         // User Dashboard
-        Route::get('/user/sessions', [UserDashboardController::class, 'index']);
-        Route::get('/user/transactions', [UserDashboardController::class, 'transactions']);
-        Route::get('/user/billing', [UserDashboardController::class, 'transactions']);
-        Route::get('/user/billings', [UserDashboardController::class, 'transactions']);
+        Route::get('/user/sessions', [UserDashboardController::class, 'index'])->name('user.sessions');
+        Route::get('/user/transactions', [UserDashboardController::class, 'transactions'])->name('user.transactions');
+        Route::get('/user/billing', [UserDashboardController::class, 'transactions'])->name('user.billing');
+        Route::get('/user/billings', [UserDashboardController::class, 'transactions'])->name('user.billings');
     });
 
     /*
@@ -127,10 +127,10 @@ Route::name('v1')->group(function () {
     */
 
     Route::middleware(['auth:api'])->controller(FirebaseTokenController::class)->prefix('firebase')->group(function () {
-        Route::get('test', 'test');
-        Route::post('token/add', 'store');
-        Route::post('token/get', 'getToken');
-        Route::post('token/delete', 'deleteToken');
+        Route::get('test', 'test')->name('test');
+        Route::post('token/add', 'store')->name('token.add');
+        Route::post('token/get', 'getToken')->name('token.get');
+        Route::post('token/delete', 'deleteToken')->name('token.delete');
     });
 
     /*
@@ -138,9 +138,9 @@ Route::name('v1')->group(function () {
     */
 
     Route::middleware(['auth:api'])->controller(NotificationController::class)->prefix('notify')->group(function () {
-        Route::get('test', 'test');
-        Route::get('/', 'index');
-        Route::post('read/{id?}', 'read');
+        Route::get('test', 'test')->name('test');
+        Route::get('/', 'index')->name('index');
+        Route::post('read/{id?}', 'read')->name('read');
     });
 
     /*
@@ -148,18 +148,18 @@ Route::name('v1')->group(function () {
     */
 
     Route::middleware(['auth:api'])->controller(ChatController::class)->prefix('auth/chat')->group(function () {
-        Route::get('/list', 'list');
-        Route::post('/send/{receiver_id}', 'send');
-        Route::get('/conversation/{receiver_id}', 'conversation');
-        Route::get('/room/{receiver_id}', 'room');
-        Route::get('/search', 'search');
-        Route::get('/seen/all/{receiver_id}', 'seenAll');
-        Route::get('/seen/single/{chat_id}', 'seenSingle');
-        Route::get('/pinned-list', 'pinnedList');
-        Route::post('/pin/{user_id}', 'togglePin');
-        Route::delete('/conversation/{receiver_id}', 'deleteConversation');
-        Route::post('/block/{user_id}', 'toggleBlock');
-        Route::get('/blocked-list', 'blockedList');
+        Route::get('/list', 'list')->name('list');
+        Route::post('/send/{receiver_id}', 'send')->name('send');
+        Route::get('/conversation/{receiver_id}', 'conversation')->name('conversation');
+        Route::get('/room/{receiver_id}', 'room')->name('room');
+        Route::get('/search', 'search')->name('search');
+        Route::get('/seen/all/{receiver_id}', 'seenAll')->name('seen.all');
+        Route::get('/seen/single/{chat_id}', 'seenSingle')->name('seen.single');
+        Route::get('/pinned-list', 'pinnedList')->name('pinned.list');
+        Route::post('/pin/{user_id}', 'togglePin')->name('toggle.pin');
+        Route::delete('/conversation/{receiver_id}', 'deleteConversation')->name('delete.conversation');
+        Route::post('/block/{user_id}', 'toggleBlock')->name('toggle.block');
+        Route::get('/blocked-list', 'blockedList')->name('blocked.list');
     });
 
     /*
