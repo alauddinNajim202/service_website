@@ -256,11 +256,11 @@ Route::name('v1')->group(function () {
 
 });
 
-Route::middleware(['auth:api'])->controller(NotificationController::class)->prefix('notify')->group(function () {
-        Route::get('test', 'test')->name('auth.notify.test');
-        Route::get('/', 'index')->name('auth.notify.index');
-        Route::post('read/{id?}', 'read')->name('auth.notify.read');
-    });
+// Route::middleware(['auth:api'])->controller(NotificationController::class)->prefix('notify')->group(function () {
+//         Route::get('test', 'test')->name('auth.notify.test');
+//         Route::get('/', 'index')->name('auth.notify.index');
+//         Route::post('read/{id?}', 'read')->name('auth.notify.read');
+//     });
 
 Route::prefix('v2')->name('v2')->group(function () {
     Route::get('/product/order/{order_id}', [APIOrderControllerV2::class, 'order']);
