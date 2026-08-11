@@ -209,14 +209,7 @@ Route::name('v1')->group(function () {
 
    
 
-    Route::get('/user-by-name', function (Request $request) {
-        $name = $request->input('name');
-
-        return User::where('name', 'LIKE', "%$name%")
-            ->select('name', 'email')
-            ->get();
-    });
-
+  
    
 
 });
@@ -224,7 +217,7 @@ Route::name('v1')->group(function () {
 
 
 Route::prefix('v2')->name('v2')->group(function () {
-    Route::get('/product/order/{order_id}', [APIOrderControllerV2::class, 'order']);
-    Route::get('/payment/success/{order_id}', [PaymentCallbackController::class, 'success']);
-    Route::get('/payment/cancel/{order_id}', [PaymentCallbackController::class, 'cancel']);
+    Route::get('/product/order/{order_id}', [APIOrderControllerV2::class, 'order'])->name('v2.product.order');
+    Route::get('/payment/success/{order_id}', [PaymentCallbackController::class, 'success'])->name('v2.payment.success');
+    Route::get('/payment/cancel/{order_id}', [PaymentCallbackController::class, 'cancel'])->name('v2.payment.cancel');
 });
