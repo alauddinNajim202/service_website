@@ -167,15 +167,15 @@ Route::name('v1')->group(function () {
     # Session Package Route
     */
     Route::middleware(['auth:api'])->group(function () {
-        Route::get('/session-packages', [SessionPackageController::class, 'index']);
-        Route::post('/session-packages/vip/price', [SessionPackageController::class, 'updateVipPrice'])->middleware('api-retailer');
+        Route::get('/session-packages', [SessionPackageController::class, 'index'])->name('session-packages');
+        Route::post('/session-packages/vip/price', [SessionPackageController::class, 'updateVipPrice'])->middleware('api-retailer')->name('session-packages.vip.price');
         
         // Book Session & Stripe Checkout
         Route::post('/book-session/checkout', [\App\Http\Controllers\Api\V1\BookSessionController::class, 'checkout'])->name('api.book-session.checkout');
         
         // Session Presence Tracking
-        Route::post('/session/join', [\App\Http\Controllers\Api\V1\SessionPresenceController::class, 'join']);
-        Route::post('/session/leave', [\App\Http\Controllers\Api\V1\SessionPresenceController::class, 'leave']);
+        Route::post('/session/join', [\App\Http\Controllers\Api\V1\SessionPresenceController::class, 'join'])->name('session.join');
+        Route::post('/session/leave', [\App\Http\Controllers\Api\V1\SessionPresenceController::class, 'leave'])->name('session.leave');
     });
 
     Route::get('/book-session/payment/success', [\App\Http\Controllers\Api\V1\BookSessionController::class, 'success'])->name('api.book-session.success');
@@ -195,9 +195,9 @@ Route::name('v1')->group(function () {
 
     */
     Route::prefix('prayer-times')->group(function () {
-        Route::get('/', [PrayerTimesController::class, 'index']);
-        Route::get('/today', [PrayerTimesController::class, 'today']);
-        Route::get('/methods', [PrayerTimesController::class, 'methods']);
+        Route::get('/', [PrayerTimesController::class, 'index'])->name('prayer-times');
+        Route::get('/today', [PrayerTimesController::class, 'today'])->name('prayer-times.today');
+        Route::get('/methods', [PrayerTimesController::class, 'methods'])->name('prayer-times.methods');
     });
 
     Route::post('contact/store', [ContactController::class, 'store'])->name('contact.store');
@@ -205,7 +205,7 @@ Route::name('v1')->group(function () {
     /*
     # test code
     */
-    Route::get('/users', [UserController::class, 'users']);
+    Route::get('/users', [UserController::class, 'users'])->name('users');
 
     Route::get('telegram/messages', function () {
 
