@@ -74,10 +74,10 @@ Route::name('v1')->group(function () {
     */
     Route::middleware(['auth:api'])->controller(PostController::class)->prefix('auth/post')->group(function () {
         Route::get('/', 'index');
-        Route::post('/store', 'store')->name('post.store');
-        Route::get('/show/{id}', 'show')->name('post.show');
-        Route::post('/update/{id}', 'update')->name('post.update');
-        Route::delete('/delete/{id}', 'destroy')->name('post.delete');
+        Route::post('/store', 'store')->name('auth.post.store');
+        Route::get('/show/{id}', 'show')->name('auth.post.show');
+        Route::post('/update/{id}', 'update')->name('auth.post.update');
+        Route::delete('/delete/{id}', 'destroy')->name('auth.post.delete');
     });
 
     Route::get('/posts', [PostController::class, 'posts'])->name('post.posts');
