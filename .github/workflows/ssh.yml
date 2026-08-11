@@ -1,30 +1,65 @@
+name: Deploy Laravel to Hostinger VPS
+
 on:
   push:
     branches:
-      - main  # main branch এ push হলে auto deploy হবে
+      - main   # tomar production branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-      - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.0.0
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            cd /home/ssh-ftp/htdocs/admin.vuqia.net
-            echo "🚀 Deploy started"
+          php-version: '8.3'
+          extensions: mbstring, bcmath, pdo_mysql, curl, zip, gd
 
-            git fetch origin main
-            git reset --hard origin/main
-            php artisan optimize:clear
-            php artisan optimize
-            echo "✅ Deploy done"
-            # git pull origin main
+      - name: Install Composer dependencies
+        run: composer install --optimize-autoloader --no-dev --no-interaction
+
+      - name: Setup Node (frontend assets thakle)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build assets (jodi vite/mix use koro)
+        run: |
+          npm ci
+          npm run build
+        continue-on-error: true
+
+      - name: Add SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p ${{ secrets.VPS_PORT }} ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy via rsync
+        run: |
+          rsync -avz --delete \
+            --exclude='.git' \
+            --exclude='.env' \
+            --exclude='storage' \
+            --exclude='node_modules' \
+            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.VPS_PORT }}" \
+            ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PATH }}/
+
+      - name: Run post-deploy commands
+        run: |
+          ssh -i ~/.ssh/deploy_key -p ${{ secrets.VPS_PORT }} ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} '
+            cd ${{ secrets.VPS_PATH }} &&
+            composer install --optimize-autoloader --no-dev --no-interaction &&
+            php artisan migrate --force &&
+            php artisan config:cache &&
+            php artisan route:cache &&
+            php artisan view:cache &&
+            php artisan queue:restart &&
+            chown -R vuqia-api:vuqia-api storage bootstrap/cache &&
+            chmod -R 775 storage bootstrap/cache
+          '
