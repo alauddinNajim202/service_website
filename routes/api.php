@@ -54,10 +54,10 @@ Route::name('v1')->group(function () {
 
     Route::get('/page/home', [HomeController::class, 'index']);
 
-    Route::get('/category', [CategoryController::class, 'index']);
-    Route::get('/subcategory', [SubcategoryController::class, 'index']);
+    Route::get('/category', [CategoryController::class, 'index'])->name('category');
+    Route::get('/subcategory', [SubcategoryController::class, 'index'])->name('subcategory');
 
-    Route::get('/social/links', [SocialLinksController::class, 'index']);
+    Route::get('/social/links', [SocialLinksController::class, 'index'])->name('social.links');
     
     // Legal Documents
     Route::get('/legal-documents', [App\Http\Controllers\Api\V1\Frontend\LegalDocumentApiController::class, 'index']);
