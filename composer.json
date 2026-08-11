@@ -24,6 +24,7 @@
         "league/flysystem-aws-s3-v3": "^3.0",
         "livewire/livewire": "^3.6",
         "mll-lab/laravel-graphiql": "^4.0",
+        "nesbot/carbon": "^2.72",
         "nuwave/lighthouse": "^6.61",
         "nwidart/laravel-modules": "^12.0",
         "predis/predis": "^3.3",
@@ -32,6 +33,7 @@
         "spatie/laravel-permission": "^6.10",
         "spatie/laravel-sitemap": "^7.4",
         "stripe/stripe-php": "^17.1",
+        "symfony/clock": "^7.0",
         "twilio/sdk": "^8.6",
         "tymon/jwt-auth": "^2.1",
         "yajra/laravel-datatables-oracle": "^11.0"
