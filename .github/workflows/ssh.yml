@@ -67,3 +67,5 @@ jobs:
             chown -R vuqia-api:vuqia-api storage bootstrap/cache &&
             chmod -R 775 storage bootstrap/cache
           '
+
+          
