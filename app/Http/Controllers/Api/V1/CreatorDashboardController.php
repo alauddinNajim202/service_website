@@ -11,6 +11,7 @@ use Stripe\Account;
 use Stripe\Balance;
 use Stripe\Payout;
 use Stripe\Stripe;
+use App\Models\Transaction;
 
 class CreatorDashboardController extends Controller
 {
@@ -110,6 +111,12 @@ class CreatorDashboardController extends Controller
                     $query->where('type', 'quick_advice');
                 })->sum('price') * 0.75;
 
+
+            $totalTipRevenue = Transaction::where('user_id', $user->id)
+                ->where('type', 'increment')
+                ->where('metadata->type', 'tip_received')
+                ->sum('amount');
+
             return response()->json([
                 'status' => 'success',
                 'message' => 'Dashboard statistics retrieved successfully.',
@@ -120,6 +127,7 @@ class CreatorDashboardController extends Controller
                     'available_for_withdrawal' => round($availableBalance, 2),
                     'already_withdrawn' => round($alreadyWithdrawn, 2),
                     'vip_revenue' => round($vipRevenue, 2),
+                    'total_tip_revenue' => round($totalTipRevenue, 2),
                     'personal_advice_revenue' => round($personalAdviceRevenue, 2),
                     'quick_advice_revenue' => round($quickAdviceRevenue, 2),
                     'currency' => strtoupper($accountCurrency),
