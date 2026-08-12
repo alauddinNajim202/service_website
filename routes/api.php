@@ -26,6 +26,7 @@ use App\Http\Controllers\Api\V1\NotificationController;
 use App\Http\Controllers\Api\V1\PrayerTimesController;
 use App\Http\Controllers\Api\V1\SessionPackageController;
 use App\Http\Controllers\Api\V1\CreatorDashboardController;
+use App\Http\Controllers\Api\V1\TipController;
 use App\Http\Controllers\Api\V1\UserDashboardController;
 use App\Http\Controllers\Api\V2\Gateway\PaymentCallbackController;
 use App\Http\Controllers\Api\V2\OrderController as APIOrderControllerV2;
@@ -157,6 +158,15 @@ Route::name('v1')->group(function () {
         Route::post('/block/{user_id}', 'toggleBlock')->name('toggle.block');
         Route::get('/blocked-list', 'blockedList')->name('blocked.list');
     });
+
+    /*
+    # Tipping Routes
+    */
+    Route::middleware(['auth:api'])->post('/auth/chat/tip/checkout', [TipController::class, 'checkout'])->name('api.tip.checkout');
+    
+    // Tipping Stripe Callbacks
+    Route::get('/chat/tip/payment/success', [TipController::class, 'success'])->name('api.tip.success');
+    Route::get('/chat/tip/payment/cancel', [TipController::class, 'cancel'])->name('api.tip.cancel');
 
     /*
     # Gemini Image Generation Route

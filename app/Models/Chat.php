@@ -16,7 +16,9 @@ class Chat extends Model {
         'receiver_id',
         'text',
         'file',
-        'room_id'
+        'room_id',
+        'message_type',
+        'metadata'
     ];
 
    /*  protected $hidden = [
@@ -30,6 +32,8 @@ class Chat extends Model {
             'sender_id'   => 'integer',
             'receiver_id' => 'integer',
             'text'        => 'string',
+            'message_type' => 'string',
+            'metadata'    => 'array',
         ];
     }
 
